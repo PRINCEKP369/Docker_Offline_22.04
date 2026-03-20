@@ -31,6 +31,7 @@ Edit your Gitea config file:
 sudo nano /etc/gitea/app.ini
 # or wherever your app.ini lives, commonly:
 # /opt/gitea/custom/conf/app.ini
+# or if you are installed gitea locally it will be the folder where your executable present.
 ```
 
 Add this section:
@@ -44,6 +45,7 @@ Then restart Gitea:
 
 ```bash
 sudo systemctl restart gitea
+#or ./gitea web
 ```
 
 ---
@@ -72,12 +74,27 @@ chmod +x act_runner
 ## Step 5 — Register the Runner
 
 ```bash
-./act_runner register \
-  --no-interactive \
-  --instance http://localhost:3000 \
-  --token <YOUR_TOKEN_HERE> \
-  --name my-ubuntu-runner \
-  --labels ubuntu-latest,ubuntu-22.04
+./act_runner register
+
+It will ask you questions one by one:
+```
+Enter the Gitea instance URL:
+> http://localhost:3000
+
+Enter the runner token:
+> <paste your token here>
+
+Enter the runner name (leave empty to use hostname):
+> my-ubuntu-runner
+
+Enter the runner labels (comma-separated, leave empty for defaults):
+> ubuntu-latest,ubuntu-22.04
+
+# if no docker type self-hosted:host
+
+Enter the runner workflow working directory (leave empty for default):
+> (just press Enter)
+
 ```
 
 After registration, a new file named `.runner` will appear in the current directory — it stores registration info. Do not edit it manually.
@@ -118,7 +135,7 @@ sudo systemctl daemon-reload
 sudo systemctl enable --now gitea-runner
 sudo systemctl status gitea-runner
 ```
-
+or run it simply by ./git-runner daemon
 ---
 
 ## Step 7 — Verify in Gitea
@@ -137,7 +154,7 @@ on: [push, pull_request]
 
 jobs:
   build-and-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # if no docker use self-hosted:host
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
