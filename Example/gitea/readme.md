@@ -134,8 +134,10 @@ Enable and start:
 sudo systemctl daemon-reload
 sudo systemctl enable --now gitea-runner
 sudo systemctl status gitea-runner
+
+ or run it simply by ./git-runner daemon
+
 ```
-or run it simply by ./git-runner daemon
 ---
 
 ## Step 7 — Verify in Gitea
