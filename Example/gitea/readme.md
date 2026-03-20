@@ -90,7 +90,7 @@ Enter the runner name (leave empty to use hostname):
 Enter the runner labels (comma-separated, leave empty for defaults):
 > ubuntu-latest,ubuntu-22.04
 
-# if no docker type self-hosted:host
+if no docker type self-hosted:host
 
 Enter the runner workflow working directory (leave empty for default):
 > (just press Enter)
