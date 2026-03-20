@@ -302,7 +302,7 @@ jobs:
 
 ## Recommendation for Your Setup
 
-Since you have **32GB RAM and an i7**, Docker container mode is the best choice because:
+if you have **Higher Ram**, Docker container mode is the best choice because:
 - Your jobs won't accidentally break your host system
 - You can run **multiple jobs in parallel** in isolated containers
 - It matches how GitHub Actions and GitLab CI work in the cloud
