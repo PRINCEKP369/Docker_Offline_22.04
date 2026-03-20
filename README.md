@@ -6,7 +6,7 @@ Here's a comprehensive guide for setting up Docker on Ubuntu 22.04 in an **offli
 ```bash
 
 git clone <URL>
-cd $HOME/Docker_Offline_22.04/
+cd $HOME/Docker_Offline_22.04/Debfiles/
 
 # Install all .deb packages
 sudo dpkg -i *.deb
