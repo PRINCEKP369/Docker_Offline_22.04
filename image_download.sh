@@ -20,6 +20,8 @@ IMAGES=(
   "grafana/grafana"
   "jenkins/jenkins:lts"
   "registry:2"
+  "gitlab/gitlab-ce:latest"
+  "gitlab/gilab-runner:latest
 )
 
 mkdir -p ~/docker-images
