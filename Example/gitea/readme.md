@@ -202,3 +202,94 @@ jobs:
 | 8 | Created a workflow YAML |
 
 
+Great observation! Let me clarify both questions.
+
+---
+
+## Is Docker Necessary?
+
+**No, Docker is not strictly required.** You have two execution modes for `act_runner`:
+
+| Mode | How it works | Needs Docker? |
+|---|---|---|
+| **Container mode** (default) | Each job runs in a fresh Docker container | ✅ Yes |
+| **Host mode** | Jobs run directly on your Ubuntu machine | ❌ No |
+
+---
+
+## Why We Didn't Explicitly Use Docker in the Workflow
+
+That's the clever part — **the runner uses Docker invisibly behind the scenes.**
+
+When you write this in your workflow:
+```yaml
+runs-on: ubuntu-latest
+```
+
+What actually happens:
+```
+Your workflow YAML
+       ↓
+   act_runner reads it
+       ↓
+   act_runner pulls a Docker image (e.g. catthehacker/ubuntu:act-22.04)
+       ↓
+   runs your steps INSIDE that container
+       ↓
+   container is destroyed after job finishes
+```
+
+You never write `docker run` yourself — the runner handles it automatically. That's why we installed Docker in Step 1 but never referenced it in the YAML.
+
+---
+
+## Running Without Docker (Host Mode)
+
+If you don't want Docker, register the runner with the `--exec` flag:
+
+```bash
+./act_runner register \
+  --no-interactive \
+  --instance http://localhost:3000 \
+  --token <YOUR_TOKEN> \
+  --name my-host-runner \
+  --labels host-runner \
+  --exec          # ← this enables host mode
+```
+
+Then in your workflow, reference that label:
+```yaml
+jobs:
+  build:
+    runs-on: host-runner   # ← matches the label above
+    steps:
+      - run: echo "Running directly on Ubuntu, no Docker!"
+```
+
+---
+
+## Which Should You Use?
+
+| | Container Mode (Docker) | Host Mode (no Docker) |
+|---|---|---|
+| **Isolation** | ✅ Each job is sandboxed | ❌ Jobs share your OS |
+| **Clean environment** | ✅ Always fresh | ❌ Leftover files can cause issues |
+| **Speed** | 🟡 Slightly slower (pull image) | 🟢 Faster |
+| **Security** | 🟢 Safer | 🔴 Riskier (jobs access your real system) |
+| **Disk space** | 🟡 Uses space for images | 🟢 Minimal |
+| **Best for** | Production pipelines | Quick local dev / trusted projects |
+
+---
+
+## Recommendation for Your Setup
+
+Since you have **32GB RAM and an i7**, Docker container mode is the best choice because:
+- Your jobs won't accidentally break your host system
+- You can run **multiple jobs in parallel** in isolated containers
+- It matches how GitHub Actions and GitLab CI work in the cloud
+
+Think of Docker here not as something you *use*, but as the **sandbox engine** the runner uses under the hood. 
+
+Want me to show you how to configure a custom Docker image for your workflow, or set up host mode instead?
+
+
