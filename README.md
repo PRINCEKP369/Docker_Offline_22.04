@@ -1,5 +1,5 @@
 # Docker_Offlie_22.04
-Here's a comprehensive guide for setting up Docker on Ubuntu 22.04 in an **offline environment**, both with and without GPU support.
+Here's a comprehensive guide for setting up Docker on Ubuntu 22.04 in an **offline environment**.
 
 ### Step 1: Install on offline machine
 
