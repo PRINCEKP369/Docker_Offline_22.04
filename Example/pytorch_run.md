@@ -4,8 +4,13 @@ Here's a complete guide to running a PyTorch model inside the Docker container.
 
 ## Step 1: Start the PyTorch Container
 
+Find the pytorch image at https://drive.google.com/file/d/1oAtdqgdLtNM8LjHFXse7OAy_sSA3cEjs/view?usp=sharing
+
 ### CPU
 ```bash
+
+docker load
+
 docker run -it --rm \
   -v ~/notebooks:/workspace \
   pytorch/pytorch:2.2.0-cuda11.8-cudnn8-runtime bash
