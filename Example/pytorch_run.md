@@ -9,7 +9,7 @@ Find the pytorch image at https://drive.google.com/file/d/1oAtdqgdLtNM8LjHFXse7O
 ### CPU
 ```bash
 
-docker load
+docker load -i pytorch-2.2.0-cpu.tar
 
 docker run -it --rm \
   -v ~/notebooks:/workspace \
